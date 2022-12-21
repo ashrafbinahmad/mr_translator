@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int        @id @default(autoincrement())
+  create_time DateTime?  @db.DateTime(0)
+  username    String     @db.VarChar(255)
+  password    String     @db.VarChar(255)
+  status      String?    @db.VarChar(255)
+  response    Response[]
+}
+
+model Question {
+  id          Int        @id @default(autoincrement())
+  create_time DateTime?  @db.DateTime(0)
+  title       String?    @db.VarChar(255)
+  question    String     @db.LongText()
+  answer      String?    @db.LongText()
+  duration    Float      @db.Double()
+  status      String?    @db.VarChar(255)
+  response    Response[]
+}
+
+model Response {
+  id          Int       @id @default(autoincrement())
+  create_time DateTime? @db.DateTime(0)
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  question    Question  @relation(fields: [questId], references: [id])
+  questId     Int
+}

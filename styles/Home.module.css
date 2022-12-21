@@ -1,0 +1,18 @@
+.main {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+  background: linear-gradient( 135deg, #b1cfff 10%, #c8dbfa 100% );
+  min-height: 100vh;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  
+}
+
+/* Tablet and Smaller Desktop */
+@media (min-width: 701px) and (max-width: 1120px) {
+  
+}
