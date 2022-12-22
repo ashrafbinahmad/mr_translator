@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import api_functions from '../../../helpers/api_functions';
 
 export default async function handle(req, res) {
+    db.connect();
     switch (req.method) {
         case 'GET':
         case 'POST':
@@ -14,6 +15,7 @@ export default async function handle(req, res) {
             const questId = req.body.questId;
             //get user password from db
             api_functions.validateUserWithToken(token, username).then((status) => {
+
                 if (status) {
 
                     db.query(`INSERT INTO Response (username,questId,res_code,answer) VALUES ('${username}','${questId}','${username}_q-${questId}','${answer}');`, (err, result) => {
@@ -44,4 +46,5 @@ export default async function handle(req, res) {
         default:
             break;
     }
+    db.end();
 }

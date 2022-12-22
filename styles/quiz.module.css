@@ -55,9 +55,9 @@
 }
 
 
-@media screen and (min-width: 800px){
+/* @media screen and (min-width: 800px){
     .all_questions{
         translate: calc(-800px * calc( var(--question_no) - 1) )  0;
     }
-}
+} */
 
