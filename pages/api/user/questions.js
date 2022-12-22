@@ -25,10 +25,10 @@ export default async function handle(req, res) {
         if (val_status) {
           db.query("SELECT  * FROM Question", (err, result) => {
             if (err) {
-              res.status(500).json({ answeredQuesCount: answeredQuesCount, error: err, status: false });
+              res.status(500).json({db: db.state, answeredQuesCount: answeredQuesCount, error: err, status: false,  });
             }
             else {
-              res.status(200).json({ answeredQuesCount: answeredQuesCount, total_questions_count: result.length, questions: result.filter((res) => res.id <= answeredQuesCount + 1), status: true });
+              res.status(200).json({db: db.state, answeredQuesCount: answeredQuesCount, total_questions_count: result.length, questions: result.filter((res) => res.id <= answeredQuesCount + 1), status: true });
             }
           });
 
