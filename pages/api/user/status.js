@@ -33,6 +33,6 @@ export default async function handle(req, res) {
     default:
       break;
   }
-  db.end();
+  //db.end();
 
 }
