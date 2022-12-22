@@ -2,7 +2,11 @@ import db from '../../../lib/db';
 import api_functions from '../../../helpers/api_functions';
 
 export default async function handle(req, res) {
-  db.connect();
+  //connect to db if not connected
+  db.state === 'disconnected' && db.connect();
+
+
+  
   switch (req.method) {
     case 'GET':
     case 'POST':

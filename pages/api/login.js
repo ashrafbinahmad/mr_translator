@@ -3,7 +3,7 @@ import db from '../../lib/db';
 import bcrypt from 'bcrypt';
 
 export default async function handle(req, res) {
-  db.connect();
+  db.state === 'disconnected' && db.connect();
   switch (req.method) {
     case 'GET':
     case 'POST':
