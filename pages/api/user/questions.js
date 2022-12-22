@@ -3,7 +3,7 @@ import api_functions from '../../../helpers/api_functions';
 
 export default async function handle(req, res) {
   //connect to db if not connected
-  db.state === 'disconnected' && db.connect();
+  db.state != 'connected' && db.connect();
 
 
   
@@ -46,7 +46,7 @@ export default async function handle(req, res) {
     default:
       break;
   }
-  db.end();
+  //db.end();
 
 
 }

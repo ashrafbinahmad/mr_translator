@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import api_functions from '../../../helpers/api_functions';
 
 export default async function handle(req, res) {
-  db.state === 'disconnected' && db.connect();
+  //db.state === 'disconnected' && db.connect();
   switch (req.method) {
     case 'GET':
     case 'POST':
@@ -33,5 +33,5 @@ export default async function handle(req, res) {
     default:
       break;
   }
-  db.end();
+  //db.end();
 }
