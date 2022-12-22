@@ -9,9 +9,11 @@ export default function login() {
   const [error, setError] = React.useState('')
   const [Username, setUsername] = React.useState('')
   const [Password, setPassword] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
 
 const handleSubmit = async (e) => {
   e.preventDefault()
+  setLoading(true)
   if (Username === '' || Password === '') {
     setError('Username or Password is empty')
   } else {
@@ -26,6 +28,7 @@ const handleSubmit = async (e) => {
     })
 
   }
+  setLoading(false)
 }
 
   return (
@@ -38,7 +41,7 @@ const handleSubmit = async (e) => {
           <Input placeholder=" " value={ Username } onChange={(e)=>setUsername(e.target.value)} />
           <FormLabel >Password</FormLabel>
           <Input placeholder=" " type='password' value={ Password } onChange={(e)=>setPassword(e.target.value)}  />
-          <Button className={s.btnLogin} colorScheme='blue' onClick={(e)=>handleSubmit(e)}> LOGIN</Button>
+          <Button className={s.btnLogin} colorScheme='blue' onClick={(e)=>handleSubmit(e)} isLoading={loading}> LOGIN</Button>
           <FormErrorMessage>{error}</FormErrorMessage>
         </FormControl>
       </Box>

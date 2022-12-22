@@ -14,7 +14,7 @@ export default async function handle(req, res) {
       api_functions.validateUserWithToken(token, username).then((status) => {
         if (status) {
           
-          db.query('UPDATE User SET status = 1 WHERE username = ?', [username], (err, result) => {
+          db.query(`UPDATE User SET status = 0 WHERE username = '${username}'`, (err, result) => {
             if (err) {
               res.status(500).json({ error: err, status: false });
             } else {
@@ -32,5 +32,4 @@ export default async function handle(req, res) {
     default:
       break;
   }
-
 }

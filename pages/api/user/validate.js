@@ -17,12 +17,12 @@ export default async function handle(req, res) {
                         const password = result[0].password;
                         const decrypted = bcrypt.compareSync(password, token);
                         if (decrypted) {
-                            res.status(200).json({ message: 'success', status: true });
+                            res.status(200).json({ message: 'Validation successfull', status: true });
                         } else {
-                            res.status(401).json({ message: 'failed', status: false });
+                            res.status(401).json({ message: 'Validation failed', status: false });
                         }
                     } else {
-                        res.status(401).json({ message: 'failed', status: false });
+                        res.status(401).json({ message: 'Validation failed', status: false });
                     }
                 }
             });

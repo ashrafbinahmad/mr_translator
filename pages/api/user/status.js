@@ -18,7 +18,7 @@ export default async function handle(req, res) {
             if (err) {
               res.status(500).json({ error: err, status: false });
             } else {
-              res.status(200).json({ status: true, started: result.status == '1' });
+              res.status(200).json({ success: true, status: result[0].status  }); 
             }
           });
         } else {

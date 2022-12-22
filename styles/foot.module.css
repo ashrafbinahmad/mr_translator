@@ -1,0 +1,6 @@
+.container{
+    display: flex;
+    padding: 1rem;
+    color: white;
+    background-color: rgba(0, 94, 255, 0.909);
+}
