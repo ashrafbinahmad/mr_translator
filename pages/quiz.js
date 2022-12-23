@@ -17,7 +17,7 @@ export default function quiz() {
 const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 7 32'
+  const updated_message = 'UPDATED on 7 41'
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
