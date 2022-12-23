@@ -16,7 +16,7 @@ export default function quiz() {
   const [currentQuestion, setCurrentQuestion] = React.useState({});
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 3.30'
+  const updated_message = 'UPDATED on 3.36'
 
 
   React.useEffect(() => {
@@ -29,7 +29,7 @@ export default function quiz() {
       setUser(res.data.details)
       // console.log(res.data.details);
     })
-  }, [user]);
+  }, [currentQuestId]);
 
   // load questions when user is loaded
 
