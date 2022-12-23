@@ -50,7 +50,7 @@ export default function quiz() {
   // change currentQuestId when currentDuration is 0
   React.useEffect(() => {
     if (currentQuestId != null && total_questions_count >= currentQuestId && !test_mode) {
-      if (currentDuration == 0) {
+      if (currentDuration >= 0) {
         //post answers to server
         answers && console.log(answers.answer);
         axios.post('/api/user/answer', {
