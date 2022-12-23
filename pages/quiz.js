@@ -17,7 +17,7 @@ export default function quiz() {
 const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 7 43 '
+  const updated_message = 'UPDATED on 7 48 '
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -48,6 +48,7 @@ const router = useRouter()
 
   React.useEffect(() => {
     loadCurrentQuestion()
+    window.document.getElementById('textareaAnswer').focus()
   }, [])
 
   //post answer and reload current question
@@ -102,6 +103,7 @@ const router = useRouter()
 
                 <p className={s.question}> {question?.question}</p>
                 <Textarea colorScheme='blue' tabIndex='0' className={s.answer} borderColor='blue.500'
+                id='textareaAnswer'
                   width='100%'
                   height='100%'
                   onPaste={(e) => {
