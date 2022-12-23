@@ -4,6 +4,8 @@ import api_functions from '../../../helpers/api_functions';
 export default async function handle(req, res) {
   //connect to db if not connected
   // db.state != 'connected' && db.connect();
+    db.state === 'disconnected' && db.connect();
+
 
 
   
