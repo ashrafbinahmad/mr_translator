@@ -24,7 +24,9 @@ export default async function handle(req, res) {
               answeredQuesCount = 'error'
             } else {
               answeredQuesCount = parseInt(result[0].status)
-              await res.status(200).json({answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions.filter((res) => res.id <= answeredQuesCount + 1), status: true });
+              // res.shouldKeepAlive = true
+              // console.log(res.shouldKeepAlive)
+              await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions.filter((res) => res.id <= answeredQuesCount + 1), status: true });
             }
           })
           // db.query("SELECT  * FROM Question", (err, result) => {
@@ -40,7 +42,7 @@ export default async function handle(req, res) {
           res.status(401).json({ message: 'Validation failed. Please login again', status: false });
         }
       }).catch((err) => {
-        res.status(401).json({ message: 'Validation error', error: err, status: false });
+        // res.status(401).json({ message: 'Validation error', error: err, status: false });
       });
 
 

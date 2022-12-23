@@ -15,7 +15,7 @@ export default function quiz() {
   const [user, setUser] = React.useState({})
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 12:2'
+  const updated_message = 'UPDATED on 2.1'
 
 
   React.useEffect(() => {
