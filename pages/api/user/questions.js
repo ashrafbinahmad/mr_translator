@@ -1,5 +1,6 @@
 import db from '../../../lib/db';
 import api_functions from '../../../helpers/api_functions';
+import data_questions from '../../../helpers/data_questions.json'
 
 export default async function handle(req, res) {
   //connect to db if not connected
@@ -15,24 +16,25 @@ export default async function handle(req, res) {
       const username = req.body.username;
       const token = req.body.token;
       let answeredQuesCount //= await api_functions.getUserStatus(username, token);
-      db.query(`SELECT * FROM User WHERE username='${username}'`, async (err, result) => {
-        if (err) {
-          answeredQuesCount = 'error'
-        } else {
-          answeredQuesCount = parseInt(result[0].status)
-        }
-      })
-
+      
       api_functions.validateUserWithToken(token, username).then(async (val_status) => {
         if (val_status) {
-          db.query("SELECT  * FROM Question", (err, result) => {
+          db.query(`SELECT * FROM User WHERE username='${username}'`, async (err, result) => {
             if (err) {
-              res.status(500).json({db: db.state, answeredQuesCount: answeredQuesCount, error: err, status: false,  });
+              answeredQuesCount = 'error'
+            } else {
+              answeredQuesCount = parseInt(result[0].status)
+              await res.status(200).json({answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions.filter((res) => res.id <= answeredQuesCount + 1), status: true });
             }
-            else {
-              res.status(200).json({db: db.state, answeredQuesCount: answeredQuesCount, total_questions_count: result.length, questions: result.filter((res) => res.id <= answeredQuesCount + 1), status: true });
-            }
-          });
+          })
+          // db.query("SELECT  * FROM Question", (err, result) => {
+          //   if (err) {
+          //     res.status(500).json({db: db.state, answeredQuesCount: answeredQuesCount, error: err, status: false,  });
+          //   }
+          //   else {
+          //     res.status(200).json({db: db.state, answeredQuesCount: answeredQuesCount, total_questions_count: result.length, questions: result.filter((res) => res.id <= answeredQuesCount + 1), status: true });
+          //   }
+          // });
 
         } else {
           res.status(401).json({ message: 'Validation failed. Please login again', status: false });
