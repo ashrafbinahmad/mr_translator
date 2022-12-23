@@ -17,7 +17,7 @@ export default function quiz() {
 const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 7 41'
+  const updated_message = 'UPDATED on 7 43 '
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -35,6 +35,7 @@ const router = useRouter()
       setUser(res.data.details);
     }).catch((err) => {
       console.log("error while fetching user",err);
+      router.reload()
     })
   }
 
