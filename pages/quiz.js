@@ -16,7 +16,20 @@ export default function quiz() {
   const [currentQuestion, setCurrentQuestion] = React.useState({});
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 3.43'
+  const updated_message = 'UPDATED on 4.00'
+
+  const loadQuestions = (user) => {
+    axios.post('/api/user/questions', {
+      username: localStorage.getItem('username'),
+      token: localStorage.getItem('token')
+    }).then((res) => {
+      console.log(res.data);
+      setQuestions(res.data.questions);
+      setTotalQuestionsCount(res.data.total_questions_count);
+      setCurrentQuestId(parseInt(user.status) + 1);
+
+    })
+  }
 
   React.useEffect(() => {
     if (user) {
@@ -35,12 +48,7 @@ export default function quiz() {
     })
   }, [user]);
 
-  // load questions when user is loaded
-
-
-
-
-
+  
   React.useEffect(() => {
     console.log("changed currentQuestId");
     setCurrentDuration(ui_functions.minToMs(questions[parseInt(user.status)]?.duration));
@@ -50,7 +58,7 @@ export default function quiz() {
   // change currentQuestId when currentDuration is 0
   React.useEffect(() => {
     if (currentQuestId != null && total_questions_count >= currentQuestId && !test_mode) {
-      if (currentDuration >= 0) {
+      if (currentDuration <= 0) {
         //post answers to server
         answers && console.log(answers.answer);
         axios.post('/api/user/answer', {
@@ -62,7 +70,7 @@ export default function quiz() {
           console.log(res.data);
           // loadQuestions(user)
           console.log(user.status);
-          setCurrentQuestId(parseInt(user.status) + 2);
+          setCurrentQuestId(parseInt(user.status) + 1);
 
         }).catch((err) => {
           console.log(err);
@@ -71,24 +79,6 @@ export default function quiz() {
       }
     }
   }, [currentDuration]);
-
-  const loadQuestions = (user) => {
-    axios.post('/api/user/questions', {
-      username: localStorage.getItem('username'),
-      token: localStorage.getItem('token')
-    }).then((res) => {
-      setQuestions(res.data.questions);
-      // setCurrentQuestion(res.data.questions[parseInt(user.status)]);
-
-      console.log(res.data);
-      console.log('user status: ' + user.status);
-      setTotalQuestionsCount(res.data.total_questions_count);
-      setCurrentQuestId(parseInt(user.status) + 1);
-      // setCurrentDuration(res.data.questions.find(quest => quest.id = res.data.answeredQuesCount + 1).duration * 1000.0 * 60.0);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
 
 
   // count down the duration when page loaded and when currentQuestId changes to limit currentDuration
