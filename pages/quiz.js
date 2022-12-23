@@ -17,7 +17,7 @@ export default function quiz() {
   const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 10 30 '
+  const updated_message = 'UPDATED on 10 45 '
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -69,6 +69,9 @@ export default function quiz() {
         // console.log("reloaded");
 
       })
+    }
+    else if (data_questions.length >= question?.id) {
+      router.push('/thanks')
     }
 
   }, [duration])
