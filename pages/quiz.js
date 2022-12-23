@@ -16,39 +16,43 @@ export default function quiz() {
   const [currentQuestion, setCurrentQuestion] = React.useState({});
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 4.00'
+  const updated_message = 'UPDATED on 4.20'
 
   const loadQuestions = (user) => {
     axios.post('/api/user/questions', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
     }).then((res) => {
+      console.log("loaded questions");
       console.log(res.data);
       setQuestions(res.data.questions);
       setTotalQuestionsCount(res.data.total_questions_count);
       setCurrentQuestId(parseInt(user.status) + 1);
 
+
+    }).then(() => {
+      loaded_questions = true;
     })
   }
-
+  let loaded_questions = false;
   React.useEffect(() => {
-    if (user) {
+    if (user && !loaded_questions && currentDuration <= 0) {
+      console.log(updated_message);
       loadQuestions(user)
     }
-  }, []);
+  }, [user]);
   React.useEffect(() => {
-    console.log(updated_message);
     axios.post('/api/user/me', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
     }).then((res) => {
-      loadQuestions(res.data.details)
+      // loadQuestions(res.data.details)
       setUser(res.data.details)
       // console.log(res.data.details);
     })
   }, [user]);
 
-  
+
   React.useEffect(() => {
     console.log("changed currentQuestId");
     setCurrentDuration(ui_functions.minToMs(questions[parseInt(user.status)]?.duration));
