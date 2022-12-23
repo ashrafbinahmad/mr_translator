@@ -34,7 +34,7 @@ const router = useRouter()
       setDuration(ui_functions.minToMs(current_question.duration));
       setUser(res.data.details);
     }).catch((err) => {
-      console.log(err);
+      console.log("error while fetching user",err);
     })
   }
 
