@@ -26,7 +26,7 @@ export default async function handle(req, res) {
                             res.status(200).json({ message: 'Answer submitted successfully.', status: true, result });
                         }
                     });
-                    db.end()
+                    // db.end()
                     // set status to questId + 1
                     db.query(`UPDATE User SET status = ${questId} WHERE username = '${username}';`, (err, result) => {
                         if (err) {

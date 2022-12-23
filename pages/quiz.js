@@ -15,9 +15,11 @@ export default function quiz() {
   const [user, setUser] = React.useState({})
 
   const test_mode = false;
+  const updated_message = 'UPDATED'
 
 
   React.useEffect(() => {
+    console.log(updated_message);
     loadQuestions()
     setUser({
       username: localStorage.getItem('username'),
