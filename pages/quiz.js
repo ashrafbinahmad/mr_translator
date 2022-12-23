@@ -16,9 +16,13 @@ export default function quiz() {
   const [currentQuestion, setCurrentQuestion] = React.useState({});
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 3.36'
+  const updated_message = 'UPDATED on 3.43'
 
-
+  React.useEffect(() => {
+    if (user) {
+      loadQuestions(user)
+    }
+  }, []);
   React.useEffect(() => {
     console.log(updated_message);
     axios.post('/api/user/me', {
@@ -29,17 +33,13 @@ export default function quiz() {
       setUser(res.data.details)
       // console.log(res.data.details);
     })
-  }, [currentQuestId]);
+  }, [user]);
 
   // load questions when user is loaded
 
-  React.useEffect(() => {
-    if (user) {
-      loadQuestions(user)
-    }
-  }, []);
 
-  
+
+
 
   React.useEffect(() => {
     console.log("changed currentQuestId");
