@@ -23,6 +23,8 @@ export default async function handle(req, res) {
                             res.status(500).json({ error: err, status: false });
                         }
                         else {
+                            //set header to json
+                            res.setHeader('Content-Type', 'application/json');
                             res.status(200).json({ message: 'Answer submitted successfully.', status: true, result });
                         }
                     });
@@ -33,6 +35,7 @@ export default async function handle(req, res) {
                             res.status(500).json({ error: err, status: false });
                         }
                         else {
+                            res.setHeader('Content-Type', 'application/json');
                             res.status(200).json({ message: 'Status updated successfully.', status: true, result });
                         }
                     });
