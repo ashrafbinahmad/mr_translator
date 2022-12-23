@@ -41,7 +41,7 @@ const router = useRouter()
 
   //test
   React.useEffect(() => {
-    // console.log(data_questions);
+    console.log(updated_message);
     console.log(question);
   }, [])
 
