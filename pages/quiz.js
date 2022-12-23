@@ -5,90 +5,74 @@ import Layout from '../components/layout';
 import ui_functions from '../helpers/ui_functions';
 import Foot from '../components/foot';
 import s from '../styles/quiz.module.css'
+import data_questions from '../helpers/data_questions.json'
 
 export default function quiz() {
-  const [questions, setQuestions] = React.useState([]);
-  const [answers, setAnswers] = React.useState([]);
-  const [currentQuestId, setCurrentQuestId] = React.useState(null);
-  const [currentDuration, setCurrentDuration] = React.useState(1);
-  const [total_questions_count, setTotalQuestionsCount] = React.useState(1);
-  const [user, setUser] = React.useState({})
-  const [currentQuestion, setCurrentQuestion] = React.useState({});
+  const [question, setQuestion] = React.useState([]);
+  const [duration, setDuration] = React.useState(0);
+  const [user, setUser] = React.useState({ username: 'loading...' });
+  const [answer, setAnswer] = React.useState('');
+
+
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 4.20'
-
-  const loadQuestions = (user) => {
-    axios.post('/api/user/questions', {
-      username: localStorage.getItem('username'),
-      token: localStorage.getItem('token')
-    }).then((res) => {
-      console.log("loaded questions");
-      console.log(res.data);
-      setQuestions(res.data.questions);
-      setTotalQuestionsCount(res.data.total_questions_count);
-      setCurrentQuestId(parseInt(user.status) + 1);
-
-
-    }).then(() => {
-      loaded_questions = true;
-    })
-  }
-  let loaded_questions = false;
-  React.useEffect(() => {
-    if (user && !loaded_questions && currentDuration <= 0) {
-      console.log(updated_message);
-      loadQuestions(user)
-    }
-  }, [user]);
-  React.useEffect(() => {
+  const updated_message = 'UPDATED on 7 26'
+  const loadCurrentQuestion = () => {
+    //load questions from server
+    // user/me
     axios.post('/api/user/me', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
+
     }).then((res) => {
-      // loadQuestions(res.data.details)
-      setUser(res.data.details)
-      // console.log(res.data.details);
+      const current_question = data_questions[parseInt(res.data.details.status)]
+
+      console.log("user", res.data.details);
+      console.log("current question", current_question)
+      setQuestion(current_question);
+      setDuration(ui_functions.minToMs(current_question.duration));
+      setUser(res.data.details);
+    }).catch((err) => {
+      console.log(err);
     })
-  }, [user]);
+  }
 
+
+  //test
+  React.useEffect(() => {
+    // console.log(data_questions);
+    console.log(question);
+  }, [])
 
   React.useEffect(() => {
-    console.log("changed currentQuestId");
-    setCurrentDuration(ui_functions.minToMs(questions[parseInt(user.status)]?.duration));
+    loadCurrentQuestion()
+  }, [])
 
-  }, [currentQuestId]);
-
-  // change currentQuestId when currentDuration is 0
+  //post answer and reload current question
   React.useEffect(() => {
-    if (currentQuestId != null && total_questions_count >= currentQuestId && !test_mode) {
-      if (currentDuration <= 0) {
-        //post answers to server
-        answers && console.log(answers.answer);
-        axios.post('/api/user/answer', {
-          username: localStorage.getItem('username'),
-          token: localStorage.getItem('token'),
-          answer: answers.answer,
-          questId: currentQuestId
-        }).then((res) => {
-          console.log(res.data);
-          // loadQuestions(user)
-          console.log(user.status);
-          setCurrentQuestId(parseInt(user.status) + 1);
-
-        }).catch((err) => {
-          console.log(err);
-        });
-
-      }
+    if (duration <= 0 && data_questions.length >= question.id) {
+      axios.post('/api/user/answer', {
+        username: localStorage.getItem('username'),
+        token: localStorage.getItem('token'),
+        questId: question.id,
+        answer: answer
+      }).then((res) => {
+        console.log(res.data);
+        data_questions.length > question.id && loadCurrentQuestion()
+        setAnswer('')
+      }).catch((err) => {
+        console.error(err);
+      })
     }
-  }, [currentDuration]);
+
+  }, [duration])
+
 
 
   // count down the duration when page loaded and when currentQuestId changes to limit currentDuration
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentDuration((prev) => {
+      setDuration((prev) => {
         if (prev > 0) {
           return prev - 1000;
         }
@@ -98,44 +82,37 @@ export default function quiz() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [currentQuestId]);
+  }, [question]);
 
   return (
     <Layout name={user.username}>
       <div className={s.page}>
         <div className={s.container}>
-          <div className={s.all_questions} style={{ '--question_no': currentQuestId }}>
-            {questions.map((question, index) => {
-              return (
-                <div className={s.quiz} key={index}>
-                  <h2 className={s.heading}>Q: {question.id} - {question.title}</h2>
-                  <Grid className={s.quest_ans} gridTemplateRows={`minMax(min-content, 50%)  auto`} >
+          <div className={s.all_questions}  >
+            {/* <div className={s.all_questions}  style={{ '--question_no': question?.id }}> */}
 
-                    <p className={s.question}> {question.question}</p>
-                    <Textarea colorScheme='blue' tabIndex='0' className={s.answer} borderColor='blue.500'
-                      width='100%'
-                      height='100%'
-                      onPaste={(e) => {
-                        e.preventDefault();
+            <div className={s.quiz}>
+              <h2 className={s.heading}>Q: {question?.id} - {question?.title}</h2>
+              <Grid className={s.quest_ans} gridTemplateRows={`minMax(min-content, 50%)  auto`} >
 
-                      }}
-                      onChange={(e) => {
-                        setAnswers((prev) => {
-                          return {
-                            ...prev,
-                            answer: e.target.value,
-                            questId: question.id
-                          }
-                        })
-                      }} />
-                  </Grid>
-                  <div className={s.foot}>
-                    <Foot currentQuestId={currentQuestId} duration={ui_functions.msToMin(currentDuration)} total_questions_count={total_questions_count} />
+                <p className={s.question}> {question?.question}</p>
+                <Textarea colorScheme='blue' tabIndex='0' className={s.answer} borderColor='blue.500'
+                  width='100%'
+                  height='100%'
+                  onPaste={(e) => {
+                    e.preventDefault();
 
-                  </div>
-                </div>
-              )
-            })}
+                  }}
+                  onChange={(e) => {
+                    setAnswer(e.target.value)
+                  }} />
+              </Grid>
+              <div className={s.foot}>
+                <Foot currentQuestId={question?.id} duration={ui_functions.msToMin(duration)} total_questions_count={data_questions.length} />
+
+              </div>
+            </div>
+
             <div>
               DONE!
             </div>
