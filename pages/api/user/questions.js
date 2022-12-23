@@ -26,7 +26,8 @@ export default async function handle(req, res) {
               answeredQuesCount = parseInt(result[0].status)
               // res.shouldKeepAlive = true
               // console.log(res.shouldKeepAlive)
-              await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions.filter((res) => res.id <= answeredQuesCount + 1), status: true });
+              await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions, status: true });
+              // await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions.filter((res) => res.id <= answeredQuesCount + 1), status: true });
             }
           })
           // db.query("SELECT  * FROM Question", (err, result) => {

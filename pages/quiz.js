@@ -10,27 +10,47 @@ export default function quiz() {
   const [questions, setQuestions] = React.useState([]);
   const [answers, setAnswers] = React.useState([]);
   const [currentQuestId, setCurrentQuestId] = React.useState(null);
-  const [currentDuration, setCurrentDuration] = React.useState();
+  const [currentDuration, setCurrentDuration] = React.useState(1);
   const [total_questions_count, setTotalQuestionsCount] = React.useState(1);
   const [user, setUser] = React.useState({})
+  const [currentQuestion, setCurrentQuestion] = React.useState({});
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 2.1'
+  const updated_message = 'UPDATED on 3.30'
 
 
   React.useEffect(() => {
     console.log(updated_message);
-    loadQuestions()
-    setUser({
+    axios.post('/api/user/me', {
       username: localStorage.getItem('username'),
-
+      token: localStorage.getItem('token')
+    }).then((res) => {
+      loadQuestions(res.data.details)
+      setUser(res.data.details)
+      // console.log(res.data.details);
     })
+  }, [user]);
+
+  // load questions when user is loaded
+
+  React.useEffect(() => {
+    if (user) {
+      loadQuestions(user)
+    }
   }, []);
+
+  
+
+  React.useEffect(() => {
+    console.log("changed currentQuestId");
+    setCurrentDuration(ui_functions.minToMs(questions[parseInt(user.status)]?.duration));
+
+  }, [currentQuestId]);
 
   // change currentQuestId when currentDuration is 0
   React.useEffect(() => {
-    if (currentQuestId != null && total_questions_count >= currentQuestId && test_mode === false) {
-      if (currentDuration === 0) {
+    if (currentQuestId != null && total_questions_count >= currentQuestId && !test_mode) {
+      if (currentDuration == 0) {
         //post answers to server
         answers && console.log(answers.answer);
         axios.post('/api/user/answer', {
@@ -40,7 +60,10 @@ export default function quiz() {
           questId: currentQuestId
         }).then((res) => {
           console.log(res.data);
-          loadQuestions()
+          // loadQuestions(user)
+          console.log(user.status);
+          setCurrentQuestId(parseInt(user.status) + 2);
+
         }).catch((err) => {
           console.log(err);
         });
@@ -49,17 +72,18 @@ export default function quiz() {
     }
   }, [currentDuration]);
 
-  const loadQuestions = () => {
+  const loadQuestions = (user) => {
     axios.post('/api/user/questions', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
     }).then((res) => {
       setQuestions(res.data.questions);
+      // setCurrentQuestion(res.data.questions[parseInt(user.status)]);
 
       console.log(res.data);
+      console.log('user status: ' + user.status);
       setTotalQuestionsCount(res.data.total_questions_count);
-      setCurrentQuestId(res.data.answeredQuesCount + 1);
-      setCurrentDuration(ui_functions.minToMs(res.data.questions[res.data.questions.length - 1].duration));
+      setCurrentQuestId(parseInt(user.status) + 1);
       // setCurrentDuration(res.data.questions.find(quest => quest.id = res.data.answeredQuesCount + 1).duration * 1000.0 * 60.0);
     }).catch((err) => {
       console.log(err);
