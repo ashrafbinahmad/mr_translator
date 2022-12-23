@@ -22,8 +22,6 @@ export default async function handle(req, res) {
               res.status(200).json({ message: 'Got user data.', success: true, details: result[0] });
             }
           });
-        } else {
-          res.status(401).json({ message: 'Validation failed. Please login again', success: false });
         }
       }).catch((err) => {
         res.status(401).json({ error: err, success: false });
