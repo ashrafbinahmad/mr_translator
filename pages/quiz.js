@@ -6,6 +6,7 @@ import ui_functions from '../helpers/ui_functions';
 import Foot from '../components/foot';
 import s from '../styles/quiz.module.css'
 import data_questions from '../helpers/data_questions.json'
+import { useRouter } from 'next/router';
 
 export default function quiz() {
   const [question, setQuestion] = React.useState([]);
@@ -13,10 +14,10 @@ export default function quiz() {
   const [user, setUser] = React.useState({ username: 'loading...' });
   const [answer, setAnswer] = React.useState('');
 
-
+const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 7 26'
+  const updated_message = 'UPDATED on 7 32'
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -62,6 +63,9 @@ export default function quiz() {
         setAnswer('')
       }).catch((err) => {
         console.error(err);
+        router.reload()
+        console.log("reloaded");
+
       })
     }
 
