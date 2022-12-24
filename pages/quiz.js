@@ -17,7 +17,7 @@ export default function quiz() {
   const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 7 5'
+  const updated_message = 'UPDATED on 7 30'
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -137,11 +137,13 @@ export default function quiz() {
 
               <Grid className={s.quest_ans} gridTemplateRows={`minMax(min-content, 50%)  auto`} >
                 <Skeleton className={s.question} width='100%' isLoaded={question?.id != undefined} >
-                  <p> {question?.question}</p>
+                  <p style={{textAlign: ui_functions.isArabic(question?.question) ? 'right' : 'left'}} > {question?.question}</p>
                 </Skeleton>
                 <Skeleton className={s.answer} width='100%' isLoaded={question?.id != undefined} >
                   {/* <p> {question?.question}</p> */}
                   <Textarea colorScheme='blue' tabIndex='0' className={s.answer} borderColor='blue.500'
+                  dir={ui_functions.isArabic(question?.question) ? 'ltr' : 'rtl'}
+                  //  style={{textAlign: ui_functions.isArabic(question?.question) ? 'left' : 'right'}}
                     id='textareaAnswer'
                     width='100%'
                     height='100%'

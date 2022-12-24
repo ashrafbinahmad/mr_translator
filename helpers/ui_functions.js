@@ -15,6 +15,10 @@ export default {
         let sec = Math.floor((decimal - min) * 60);
         return `${min}:${sec}`;
 
-    }
+    },
+    //check a string include arabic or not
+    isArabic: (str) => {
+        return /[\u0600-\u06FF]/.test(str);
+    },
 
 }
