@@ -17,7 +17,7 @@ export default function quiz() {
   const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 6 34 '
+  const updated_message = 'UPDATED on 7 5'
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -31,12 +31,18 @@ export default function quiz() {
       console.log("user", res.data.details);
       console.log("current question", current_question)
       setQuestion(current_question);
-      setDuration(ui_functions.minToMs(current_question?.duration));
+      localStorage.setItem(`duration`, ui_functions.minToMs(current_question?.duration))
+      if (localStorage.getItem(`q-${current_question?.id}`) == null || localStorage.getItem(`q-${current_question?.id}`) == 'undefined') {
+        localStorage.setItem(`q-${current_question?.id}`, ui_functions.minToMs(current_question?.duration))
+        setDuration(ui_functions.minToMs(localStorage.getItem(`q-${current_question?.id}`)));
+      } else {
+        setDuration(ui_functions.minToMs(localStorage.getItem(`q-${current_question?.id}`)));
+      }
       setUser(res.data.details);
       if (parseInt(res.data.details.status) == data_questions.length) {
         router.push('/thanks')
       }
-    window.document.getElementById('textareaAnswer').focus()
+      window.document.getElementById('textareaAnswer').focus()
 
     }).catch((err) => {
       console.log("error while fetching user", err);
@@ -49,7 +55,7 @@ export default function quiz() {
   React.useEffect(() => {
     console.log(updated_message);
     console.log(question);
-    
+
   }, [])
 
   React.useEffect(() => {
@@ -76,7 +82,7 @@ export default function quiz() {
 
       })
     }
-    
+
 
   }, [duration])
 
@@ -85,14 +91,18 @@ export default function quiz() {
   // count down the duration when page loaded and when currentQuestId changes to limit currentDuration
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setDuration((prev) => {
-        if (prev > 0) {
-          return prev - 1000;
-        }
-        else {
-          return 0;
-        }
-      });
+      // localStorage.setItem(`duration`, parseInt(localStorage.getItem('duration')) - 1000)
+      // setDuration(localStorage.getItem(`duration`));
+      if (duration > 0) localStorage.setItem(`q-${question?.id}`, parseInt(localStorage.getItem(`q-${question?.id}`)) - 1000)
+      if (duration > 0) setDuration(localStorage.getItem(`q-${question?.id}`));
+      // setDuration((prev) => {
+      //   if (prev > 0) {
+      //     return prev - 1000;
+      //   }
+      //   else {
+      //     return 0;
+      //   }
+      // });
     }, 1000);
     return () => clearInterval(interval);
   }, [question]);
@@ -110,7 +120,7 @@ export default function quiz() {
                   <Skeleton height='20px' width='2rem' m='auto' isLoaded={question?.id != undefined} >
                     {question?.id}
                   </Skeleton>
-                  <Skeleton height='20px' maxWidth={'18rem'} style={{margin:'auto'}} isLoaded={question?.id != undefined}>
+                  <Skeleton height='20px' maxWidth={'18rem'} style={{ margin: 'auto' }} isLoaded={question?.id != undefined}>
                     {question?.title}
                   </Skeleton>
                 </Stack>
