@@ -17,7 +17,7 @@ export default function quiz() {
   const router = useRouter()
 
   const test_mode = false;
-  const updated_message = 'UPDATED on 10 45 '
+  const updated_message = 'UPDATED on 6 34 '
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
@@ -33,6 +33,11 @@ export default function quiz() {
       setQuestion(current_question);
       setDuration(ui_functions.minToMs(current_question?.duration));
       setUser(res.data.details);
+      if (parseInt(res.data.details.status) == data_questions.length) {
+        router.push('/thanks')
+      }
+    window.document.getElementById('textareaAnswer').focus()
+
     }).catch((err) => {
       console.log("error while fetching user", err);
       router.reload()
@@ -44,11 +49,12 @@ export default function quiz() {
   React.useEffect(() => {
     console.log(updated_message);
     console.log(question);
+    
   }, [])
 
   React.useEffect(() => {
     loadCurrentQuestion()
-    window.document.getElementById('textareaAnswer').focus()
+
   }, [])
 
   //post answer and reload current question
@@ -61,18 +67,16 @@ export default function quiz() {
         answer: answer
       }).then((res) => {
         console.log(res.data);
-        data_questions.length > question.id && loadCurrentQuestion()
+        // data_questions.length > question.id && loadCurrentQuestion()
+        router.reload()
         setAnswer('')
       }).catch((err) => {
         console.error(err);
-        // router.reload()
         // console.log("reloaded");
 
       })
     }
-    else if (data_questions.length >= question?.id) {
-      router.push('/thanks')
-    }
+    
 
   }, [duration])
 
