@@ -3,6 +3,7 @@ import axios from 'axios'
 import Router, { useRouter } from 'next/router'
 import React from 'react'
 import s from '../styles/start.module.css'
+import Layout from '../components/layout'
 
 export default function start() {
   const router = useRouter()
@@ -44,20 +45,22 @@ export default function start() {
 
   }
   return (
-    <main className={s.main}>
-      {!alreadyAttended ?
-        <div>
-          <h1>Let us get started.</h1>
-          <p>Once the button clicked you can not attend again.</p>
-          <div className="space"></div>
-          <Button colorScheme='green' onClick={handleStart}>START THE QUIZ</Button>
-        </div>
-        :
-        <div>
-          <h1>You have already attended the quiz.</h1>
-        </div>
+    <Layout>
+      <main className={s.main}>
+        {!alreadyAttended ?
+          <div>
+            <h1>Let us get started.</h1>
+            <p>Once the button clicked you can not attend again.</p>
+            <div className="space"></div>
+            <Button colorScheme='green' onClick={handleStart}>START THE QUIZ</Button>
+          </div>
+          :
+          <div>
+            <h1>You have already attended the quiz.</h1>
+          </div>
 
-      }
-    </main>
+        }
+      </main>
+    </Layout>
   )
 }

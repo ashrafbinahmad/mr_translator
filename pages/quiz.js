@@ -7,6 +7,7 @@ import Foot from '../components/foot';
 import s from '../styles/quiz.module.css'
 import data_questions from '../helpers/data_questions.json'
 import { useRouter } from 'next/router';
+import data from '../helpers/data.json';
 
 export default function quiz() {
   const [question, setQuestion] = React.useState();
@@ -14,7 +15,7 @@ export default function quiz() {
   const [user, setUser] = React.useState({ username: 'loading...' });
   const [answer, setAnswer] = React.useState('');
 
-  const ending_datetime = new Date("24th December 2022 16:14:59 GMT+0530");
+  const ending_datetime = new Date(data.end_time);
 
   // '2021-07-30T23:59:59.999Z' in am pm format
   
@@ -54,15 +55,16 @@ export default function quiz() {
 
     }).catch((err) => {
       console.log("error while fetching user", err);
-      router.reload()
+      // router.reload()
     })
   }
 
 
   //test
   React.useEffect(() => {
-    console.log(updated_message);
-    console.log(question);
+    console.log("end time",ending_datetime);
+    // console.log(updated_message);
+    // console.log(question);
 
   }, [])
 
@@ -71,7 +73,6 @@ export default function quiz() {
 
   }, [])
 
-  //post answer and reload current question
   React.useEffect(() => {
     if (duration <= 0 && data_questions.length >= question?.id && !test_mode) {
       axios.post('/api/user/answer', {
@@ -82,16 +83,13 @@ export default function quiz() {
       }).then((res) => {
         console.log(res.data);
         // data_questions.length > question.id && loadCurrentQuestion()
+        alert('Time over, Answer submitted. Tap OK to continue.')
         router.reload()
         setAnswer('')
       }).catch((err) => {
         console.error(err);
-        // console.log("reloaded");
-
       })
     }
-
-
   }, [duration])
 
 
@@ -106,7 +104,10 @@ export default function quiz() {
       let current_time;
       axios.get('http://worldtimeapi.org/api/timezone/Asia/Kolkata').then((res) => {
         current_time = new Date(res.data.datetime)
+        let showedAlert = false;
         if (current_time >= ending_datetime) {
+          showedAlert = true;
+          !showedAlert && alert("Time's up. Thanks for participating.")
           router.push('/thanks')
         }
       })

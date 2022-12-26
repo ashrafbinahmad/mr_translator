@@ -1,6 +1,12 @@
 .container{
     display: flex;
     padding: 1rem;
+    
+    font-weight: bold;
     color: white;
-    background-color: rgba(0, 94, 255, 0.909);
+    background: linear-gradient( 135deg, #026f7b 10%, #2a56a3 100% );
+}
+
+.container > *{
+    margin: 0;
 }

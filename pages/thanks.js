@@ -6,6 +6,7 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 import ui_functions from '../helpers/ui_functions';
+import s from '../styles/thanks.module.css'
 
 
 // get user me from api using getServerSideProps
@@ -14,26 +15,16 @@ import ui_functions from '../helpers/ui_functions';
 
 export default function thanks() {
 
+  const [completed, setCompleted] = React.useState(false)
+
   const router = useRouter()
   const [user, setUser] = React.useState(null)
 
-  function allStorage() {
 
-    var values = [],
-        keys = Object.keys(localStorage),
-        i = keys.length;
-
-    while ( i-- ) {
-        values.push( localStorage.getItem(keys[i]) );
-    }
-
-    return values;
-}
 
 
 
   React.useEffect(() => {
-    console.log(allStorage());
     ui_functions.clearLocalStorageByPrefix('q-')
     axios.post('/api/user/me', {
       token: localStorage.getItem('token'),
@@ -47,7 +38,9 @@ export default function thanks() {
         router.push('/start')
       }
       if (res.data.details.status == "0") {
-        router.push('/quiz')
+        setCompleted(false)
+      } else {
+        setCompleted(true)
       }
     }).catch((err) => {
       console.log(err)
@@ -91,13 +84,25 @@ export default function thanks() {
 
   return (
     <Layout name={user?.username} answeredCount={user?.status} >
-      <div style={{ height: '98vh', position:'relative' }}>
-        <div style={{  overflow: 'auto' }} >
+      <div className={s.container} style={{ height: '98vh', position: 'relative' }}>
+        <div className={s.can_container} style={{ overflow: 'auto' }}  >
           <canvas id='certificate'   ></canvas>
         </div>
-        <div onClick={download} style={{position:'absolute', top:'0%', left:'0%', height:'100%', width:'100%', opacity:'.5', backgroundColor:'black'}}> <DownloadIcon /> Download</div>
-        <Button onClick={download} colorScheme='blue' m='auto' style={{position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}}> <DownloadIcon /> Download</Button>
-        {/* <button onClick={download}>Download</button> */}
+
+
+        <div className={s.contents}
+          // style={{ background: 'transparent' }}
+        >
+          {completed &&
+            <div>
+              <img src="/images/done.gif" width='200px' alt="" />
+              <Button onClick={download} colorScheme='blue'>
+                <DownloadIcon /> Download
+              </Button>
+            </div>
+          }
+        </div>
+
       </div>
     </Layout>
   )
