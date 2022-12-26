@@ -59,6 +59,25 @@ export default function quiz() {
     })
   }
 
+  const saveAnswer = (reload) => {
+    if (duration <= 0 && data_questions.length >= question?.id && !test_mode) {
+      axios.post('/api/user/answer', {
+        username: localStorage.getItem('username'),
+        token: localStorage.getItem('token'),
+        questId: question.id,
+        answer: answer
+      }).then((res) => {
+        console.log(res.data);
+        // data_questions.length > question.id && loadCurrentQuestion()
+        alert('Time over, Answer submitted. Tap OK to continue.')
+        reload && router.reload()
+        setAnswer('')
+      }).catch((err) => {
+        console.error(err);
+      })
+    }
+  }
+
 
   //test
   React.useEffect(() => {
@@ -74,22 +93,7 @@ export default function quiz() {
   }, [])
 
   React.useEffect(() => {
-    if (duration <= 0 && data_questions.length >= question?.id && !test_mode) {
-      axios.post('/api/user/answer', {
-        username: localStorage.getItem('username'),
-        token: localStorage.getItem('token'),
-        questId: question.id,
-        answer: answer
-      }).then((res) => {
-        console.log(res.data);
-        // data_questions.length > question.id && loadCurrentQuestion()
-        alert('Time over, Answer submitted. Tap OK to continue.')
-        router.reload()
-        setAnswer('')
-      }).catch((err) => {
-        console.error(err);
-      })
-    }
+    saveAnswer(true)
   }, [duration])
 
 
@@ -107,6 +111,7 @@ export default function quiz() {
         let showedAlert = false;
         if (current_time >= ending_datetime) {
           !showedAlert && alert("Time's up. Thanks for participating.")
+          saveAnswer(false)
           clearInterval(interval)
           showedAlert = true;
           router.push('/thanks')
