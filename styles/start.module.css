@@ -5,4 +5,5 @@
     align-items: center;
     /* background: linear-gradient( 135deg, #b1cfff 10%, #c8dbfa 100% ); */
     min-height: 100vh;
+    text-align: center;
 }

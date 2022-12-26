@@ -21,4 +21,13 @@ export default {
         return /[\u0600-\u06FF]/.test(str);
     },
 
+    clearLocalStorageByPrefix: (prefix) => {
+        Object.keys(localStorage).forEach(function (key) {
+            if (key.startsWith(prefix)) {
+                localStorage.removeItem(key);
+            }
+        });
+        console.log('cleared local storage by prefix: ' + prefix);
+    },
+
 }

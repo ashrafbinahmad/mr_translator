@@ -14,6 +14,11 @@ export default function quiz() {
   const [user, setUser] = React.useState({ username: 'loading...' });
   const [answer, setAnswer] = React.useState('');
 
+  const ending_datetime = new Date("24th December 2022 16:14:59 GMT+0530");
+
+  // '2021-07-30T23:59:59.999Z' in am pm format
+  
+
   const router = useRouter()
 
   const test_mode = false;
@@ -24,8 +29,11 @@ export default function quiz() {
     axios.post('/api/user/me', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
-
     }).then((res) => {
+
+      if (res.data.details.status == null) {
+        router.push('/start')
+      }
       const current_question = data_questions[parseInt(res.data.details.status)]
 
       console.log("user", res.data.details);
@@ -91,18 +99,18 @@ export default function quiz() {
   // count down the duration when page loaded and when currentQuestId changes to limit currentDuration
   React.useEffect(() => {
     const interval = setInterval(() => {
-      // localStorage.setItem(`duration`, parseInt(localStorage.getItem('duration')) - 1000)
-      // setDuration(localStorage.getItem(`duration`));
-      if (duration > 0) localStorage.setItem(`q-${question?.id}`, parseInt(localStorage.getItem(`q-${question?.id}`)) - 1000)
-      if (duration > 0) setDuration(localStorage.getItem(`q-${question?.id}`));
-      // setDuration((prev) => {
-      //   if (prev > 0) {
-      //     return prev - 1000;
-      //   }
-      //   else {
-      //     return 0;
-      //   }
-      // });
+
+      if (duration >= 0) localStorage.setItem(`q-${question?.id}`, parseInt(localStorage.getItem(`q-${question?.id}`)) - 1000)
+      if (duration >= 0) setDuration(localStorage.getItem(`q-${question?.id}`));
+
+      let current_time;
+      axios.get('http://worldtimeapi.org/api/timezone/Asia/Kolkata').then((res) => {
+        current_time = new Date(res.data.datetime)
+        if (current_time >= ending_datetime) {
+          router.push('/thanks')
+        }
+      })
+
     }, 1000);
     return () => clearInterval(interval);
   }, [question]);
