@@ -22,7 +22,7 @@ export default function quiz() {
 
   const router = useRouter()
 
-  const test_mode = false;
+  const test_mode = data.test_mode;
   const updated_message = 'UPDATED on 7 30'
   const loadCurrentQuestion = () => {
     //load questions from server
@@ -51,11 +51,10 @@ export default function quiz() {
       if (parseInt(res.data.details.status) == data_questions.length) {
         router.push('/thanks')
       }
-      window.document.getElementById('textareaAnswer').focus()
 
     }).catch((err) => {
       console.log("error while fetching user", err);
-      // router.reload()
+      router.reload()
     })
   }
 
@@ -88,6 +87,8 @@ export default function quiz() {
   }, [])
 
   React.useEffect(() => {
+    window.document.getElementById('textareaAnswer').focus()
+
     loadCurrentQuestion()
 
   }, [])
