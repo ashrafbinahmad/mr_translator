@@ -1,5 +1,6 @@
 .page {
     height: 100vh;
+    overflow: hidden;
 }
 
 .nav {
@@ -7,6 +8,7 @@
     display: flex;
     background: linear-gradient(135deg, #026f7b 10%, #2a56a3 100%);
     color: white;
+    font-weight: bold;
 }
 
 .children {

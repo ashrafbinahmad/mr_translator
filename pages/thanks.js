@@ -7,6 +7,7 @@ import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 import ui_functions from '../helpers/ui_functions';
 import s from '../styles/thanks.module.css'
+import data from '../helpers/data.json'
 
 
 // get user me from api using getServerSideProps
@@ -25,6 +26,7 @@ export default function thanks() {
 
 
   React.useEffect(() => {
+    console.log(new Date( data.end_time))
     ui_functions.clearLocalStorageByPrefix('q-')
     axios.post('/api/user/me', {
       token: localStorage.getItem('token'),
@@ -95,9 +97,9 @@ export default function thanks() {
         >
           {completed &&
             <div>
-              <img src="/images/done.gif" width='200px' alt="" />
+              <img src="/images/done.gif" width='100px' alt="" style={{marginBottom:'2rem'}} />
               <Button onClick={download} colorScheme='blue'>
-                <DownloadIcon /> Download
+                <DownloadIcon /> Download Certificate
               </Button>
             </div>
           }

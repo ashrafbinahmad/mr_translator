@@ -106,8 +106,9 @@ export default function quiz() {
         current_time = new Date(res.data.datetime)
         let showedAlert = false;
         if (current_time >= ending_datetime) {
-          showedAlert = true;
           !showedAlert && alert("Time's up. Thanks for participating.")
+          clearInterval(interval)
+          showedAlert = true;
           router.push('/thanks')
         }
       })
