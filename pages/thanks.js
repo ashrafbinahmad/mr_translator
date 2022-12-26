@@ -3,7 +3,7 @@ import domtoimage from 'dom-to-image';
 import { Button } from '@chakra-ui/react';
 import { DownloadIcon } from '@chakra-ui/icons';
 import axios from 'axios';
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 import { useRouter } from 'next/router';
 import ui_functions from '../helpers/ui_functions';
 import s from '../styles/thanks.module.css'
