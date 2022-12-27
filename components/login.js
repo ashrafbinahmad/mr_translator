@@ -11,40 +11,44 @@ export default function login() {
   const [Password, setPassword] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
-const handleSubmit = async (e) => {
-  e.preventDefault()
-  setLoading(true)
-  if (Username === '' || Password === '') {
-    setError('Username or Password is empty')
-  } else {
-    setError('')
-    axios.post('/api/login', { username: Username, password: Password }).then((res)=>{
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('username', res.data.username)
-      router.push('/start')
-    })
-    .catch((err) => {
-      console.log(err.response.data)
-    })
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    if (Username === '' || Password === '') {
+      setError('Username or Password is empty')
+    } else {
+      setError('')
+      axios.post('/api/login', { username: Username, password: Password }).then((res) => {
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username', res.data.username)
+        if (res.data.username === 'admin') {
+          router.push('/admin')
+        } else {
+          router.push('/start')
+        }
+      })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
 
+    }
+    setLoading(false)
   }
-  setLoading(false)
-}
 
   return (
     <div>
       <div className={s.container}>
         <Box p={8}>
-        <Heading className={s.heading} size='lg'>LOGIN</Heading>
-        <FormControl isRequired isInvalid>
-          <FormLabel >Username</FormLabel>
-          <Input placeholder=" " value={ Username } onChange={(e)=>setUsername(e.target.value)} />
-          <FormLabel >Password</FormLabel>
-          <Input placeholder=" " type='password' value={ Password } onChange={(e)=>setPassword(e.target.value)}  />
-          <Button className={s.btnLogin} colorScheme='blue' onClick={(e)=>handleSubmit(e)} isLoading={loading}> LOGIN</Button>
-          <FormErrorMessage>{error}</FormErrorMessage>
-        </FormControl>
-      </Box>
+          <Heading className={s.heading} size='lg'>LOGIN</Heading>
+          <FormControl isRequired isInvalid>
+            <FormLabel >Username</FormLabel>
+            <Input placeholder=" " value={Username} onChange={(e) => setUsername(e.target.value)} />
+            <FormLabel >Password</FormLabel>
+            <Input placeholder=" " type='password' value={Password} onChange={(e) => setPassword(e.target.value)} />
+            <Button className={s.btnLogin} colorScheme='blue' onClick={(e) => handleSubmit(e)} isLoading={loading}> LOGIN</Button>
+            <FormErrorMessage>{error}</FormErrorMessage>
+          </FormControl>
+        </Box>
       </div>
     </div>
   )
