@@ -1,5 +1,4 @@
 import db from '../../../../lib/db';
-import bcrypt from 'bcrypt';
 import api_functions from '../../../../helpers/api_functions';
 
 export default async function handle(req, res) {
@@ -15,7 +14,7 @@ export default async function handle(req, res) {
                         if (err) {
                             res.status(500).json({ error: err, success: false });
                         } else {
-                            res.status(200).json({ message: 'Got answers of ' + cand_username, count: result.length, answers: result, success: true });
+                            api_functions.generatePdf(result).pipe(res);
                         }
                     });
                 } else {

@@ -1,5 +1,4 @@
 import db from '../../../../lib/db';
-import bcrypt from 'bcrypt';
 import api_functions from '../../../../helpers/api_functions';
 
 export default async function handle(req, res) {
@@ -14,7 +13,7 @@ export default async function handle(req, res) {
                         if (err) {
                             res.status(500).json({ error: err, success: false });
                         } else {
-                            res.status(200).json({ message: 'Got answers.', success: true, answers: result });
+                            api_functions.generatePdf(result).pipe(res);
                         }
                     });
                 } else {
@@ -28,3 +27,4 @@ export default async function handle(req, res) {
             break;
     }
 }
+

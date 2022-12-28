@@ -59,7 +59,7 @@ export default function quiz() {
   }
 
   const saveAnswer = (reload) => {
-    if (duration <= 0 && data_questions.length >= question?.id && !test_mode) {
+    if ( answer != "" && answer != null && answer != undefined && duration <= 0 && data_questions.length >= question?.id && !test_mode) {
       axios.post('/api/user/answer', {
         username: localStorage.getItem('username'),
         token: localStorage.getItem('token'),
@@ -164,7 +164,7 @@ export default function quiz() {
                     width='100%'
                     height='100%'
                     onPaste={(e) => {
-                      e.preventDefault();
+                      data.pastable || e.preventDefault();
 
                     }}
                     onChange={(e) => {

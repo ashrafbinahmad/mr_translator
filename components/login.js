@@ -29,10 +29,12 @@ export default function login() {
       })
         .catch((err) => {
           console.log(err.response.data)
+        }).finally(()=>{
+          setLoading(false)
         })
 
+
     }
-    setLoading(false)
   }
 
   return (
@@ -44,8 +46,8 @@ export default function login() {
             <FormLabel >Username</FormLabel>
             <Input placeholder=" " value={Username} onChange={(e) => setUsername(e.target.value)} />
             <FormLabel >Password</FormLabel>
-            <Input placeholder=" " type='password' value={Password} onChange={(e) => setPassword(e.target.value)} />
-            <Button className={s.btnLogin} colorScheme='blue' onClick={(e) => handleSubmit(e)} isLoading={loading}> LOGIN</Button>
+            <Input placeholder=" " type='password' value={Password} onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => { if (e.keyCode == 13) handleSubmit(e) }} />
+            <Button className={s.btnLogin} colorScheme='blue' onClick={(e) => handleSubmit(e)} >{loading ? 'LOGING IN...' : 'LOG IN'}</Button>
             <FormErrorMessage>{error}</FormErrorMessage>
           </FormControl>
         </Box>

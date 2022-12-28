@@ -14,7 +14,7 @@ export default function layout({ children, name = 'Un Known', answeredCount = 0,
             </Head>
             <nav className={s.nav}>
                 <div className="flex-grow"></div>
-                <h2>Mr. translator</h2>
+                <a href="/"><h2>Mr. translator</h2></a> 
                 <div className="flex-grow"></div>
                 <h3 style={{ marginRight: '1rem' }}>{answeredCount}</h3>
                 <Tooltip hasArrow label={name} borderRadius='2px' >
