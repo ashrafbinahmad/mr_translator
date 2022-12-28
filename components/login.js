@@ -42,6 +42,9 @@ export default function login() {
   return (
     <div>
       <div className={s.container}>
+        <div className={s.left}>
+          {/* <img src="images/loginbg.jpg" alt="" /> */}
+        </div>
         <Box p={8}>
           <Heading className={s.heading} size='lg'>LOGIN</Heading>
           <FormControl isRequired isInvalid>
