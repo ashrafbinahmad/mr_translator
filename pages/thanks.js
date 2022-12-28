@@ -10,7 +10,7 @@ import s from '../styles/thanks.module.css'
 import data from '../helpers/data.json'
 
 
-// get user me from api using getServerSideProps
+
 
 
 
@@ -26,16 +26,16 @@ export default function thanks() {
 
 
   React.useEffect(() => {
-    console.log(new Date( data.end_time))
+    
     ui_functions.clearLocalStorageByPrefix('q-')
     axios.post('/api/user/me', {
       token: localStorage.getItem('token'),
       username: localStorage.getItem('username')
     }).then((res) => {
-      console.log(res.data.details)
+      
       setUser(res.data.details)
 
-      //go back to / if user status is not null
+      
       if (res.data.details.status == null) {
         router.push('/start')
       }
@@ -45,14 +45,14 @@ export default function thanks() {
         setCompleted(true)
       }
     }).catch((err) => {
-      console.log(err)
+      
     })
   }, [])
 
 
 
   React.useEffect(() => {
-    // draw /images/certificate.jpg on canvas
+    
     const canvas = document.getElementById('certificate');
     const ctx = canvas.getContext('2d');
     const img = new Image();
@@ -93,7 +93,7 @@ export default function thanks() {
 
 
         <div className={s.contents}
-          // style={{ background: 'transparent' }}
+          
         >
           {completed &&
             <div>

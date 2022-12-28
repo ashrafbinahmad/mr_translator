@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 import Login from '../components/login'
 
 const inter = Inter({ subsets: ['latin'] })
-console.log(process.env.DATABASE_URL)
+
 
 export default function Home() {
   return (

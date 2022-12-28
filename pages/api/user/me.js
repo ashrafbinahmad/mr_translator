@@ -1,17 +1,17 @@
 import db from '../../../lib/db';
 
-// import {  } from 'crypto-js';
+
 import bcrypt from 'bcrypt';
 import api_functions from '../../../helpers/api_functions';
 
 export default async function handle(req, res) {
-  //db.state === 'disconnected' && db.connect();
+  
   switch (req.method) {
     case 'GET':
     case 'POST':
       const username = req.body.username;
       const token = req.body.token;
-      //get user password from db
+      
       api_functions.validateUserWithToken(token, username).then((status) => {
         if (status) {
           
@@ -26,10 +26,10 @@ export default async function handle(req, res) {
       }).catch((err) => {
         res.status(401).json({ error: err, success: false });
       });
-      // res.json(req.body);
+      
       break;
     default:
       break;
   }
-  //db.end();
+  
 }

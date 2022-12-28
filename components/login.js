@@ -6,12 +6,14 @@ import s from '../styles/login.module.css'
 
 export default function login() {
   const router = useRouter()
-  const [error, setError] = React.useState('')
+  const [error, setError] = React.useState(' ')
   const [Username, setUsername] = React.useState('')
   const [Password, setPassword] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const handleSubmit = async (e) => {
+    setError('_')
+
     e.preventDefault()
     setLoading(true)
     if (Username === '' || Password === '') {
@@ -28,7 +30,7 @@ export default function login() {
         }
       })
         .catch((err) => {
-          console.log(err.response.data)
+          setError(err.response.data.message)
         }).finally(()=>{
           setLoading(false)
         })
@@ -46,7 +48,7 @@ export default function login() {
             <FormLabel >Username</FormLabel>
             <Input placeholder=" " value={Username} onChange={(e) => setUsername(e.target.value)} />
             <FormLabel >Password</FormLabel>
-            <Input placeholder=" " type='password' value={Password} onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => { if (e.keyCode == 13) handleSubmit(e) }} />
+            <Input placeholder=" " type='password' value={Password} onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => { if (e.key == 'Enter')  handleSubmit(e) }} />
             <Button className={s.btnLogin} colorScheme='blue' onClick={(e) => handleSubmit(e)} >{loading ? 'LOGING IN...' : 'LOG IN'}</Button>
             <FormErrorMessage>{error}</FormErrorMessage>
           </FormControl>

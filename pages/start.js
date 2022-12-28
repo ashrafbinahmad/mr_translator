@@ -21,7 +21,7 @@ export default function start() {
         setAlreadyAttended(true)
       }
     }).catch((err) => {
-      // router.push('/')
+      
       console.log(err, 'error while getting status')
     })
   }, [])

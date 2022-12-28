@@ -7,8 +7,10 @@ import s from '../styles/admin.module.css'
 
 export default function admin() {
   const [users, setUsers] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
 
   const downloadUserAnswers = async (username) => {
+    setLoading(true)
 
     axios.post(`/api/admin/download/${username}`,
       {
@@ -26,13 +28,15 @@ export default function admin() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      console.log(res.data)
     }).catch((err) => {
-      console.log(err)
+      
+    }).finally(() => {
+      setLoading(false)
     })
   }
 
   const downloadAllAnswers = async () => {
+    setLoading(true)
     axios.post('/api/admin/download', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
@@ -48,9 +52,11 @@ export default function admin() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      console.log(res.data)
+      
     }).catch((err) => {
-      console.log(err)
+      
+    }).finally(() => {
+      setLoading(false)
     })
 
   }
@@ -60,10 +66,10 @@ export default function admin() {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
     }).then((res) => {
-      console.log(res.data)
+      
       setUsers(res.data.users)
     }).catch((err) => {
-      console.log(err)
+      
     })
   }, [null])
 
@@ -71,7 +77,7 @@ export default function admin() {
   return (
     <Layout name='ADMIN' answeredCount=''>
 
-      <div className={s.container}>
+      <div className={s.container} style={{cursor: loading ? 'progress' : 'default'}} >
         <Button className={s.btnDnAll}  onClick={downloadAllAnswers}> <DownloadIcon /> Download all results  </Button>
         <div className={s.tableContainer}>
           <Table className={s.table}>

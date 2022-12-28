@@ -37,8 +37,8 @@ export default function quiz() {
       }
       const current_question = data_questions[parseInt(res.data.details.status)]
 
-      console.log("user", res.data.details);
-      console.log("current question", current_question)
+      
+      
       setQuestion(current_question);
       localStorage.setItem(`duration`, ui_functions.minToMs(current_question?.duration))
       if (localStorage.getItem(`q-${current_question?.id}`) == null || localStorage.getItem(`q-${current_question?.id}`) == 'undefined') {
@@ -53,7 +53,7 @@ export default function quiz() {
       }
 
     }).catch((err) => {
-      console.log("error while fetching user", err);
+      
       router.reload()
     })
   }
@@ -66,7 +66,7 @@ export default function quiz() {
         questId: question.id,
         answer: answer
       }).then((res) => {
-        console.log(res.data);
+        
         // data_questions.length > question.id && loadCurrentQuestion()
         alert('Time over, Answer submitted. Tap OK to continue.')
         reload && router.reload()
@@ -80,9 +80,9 @@ export default function quiz() {
 
   //test
   React.useEffect(() => {
-    console.log("end time",ending_datetime);
-    // console.log(updated_message);
-    // console.log(question);
+    
+    // 
+    // 
 
   }, [])
 

@@ -3,9 +3,9 @@ import api_functions from '../../../helpers/api_functions';
 import data_questions from '../../../helpers/data_questions.json'
 
 export default async function handle(req, res) {
-  //connect to db if not connected
-  // db.state != 'connected' && db.connect();
-    // db.state === 'disconnected' && db.connect();
+  
+  
+    
 
 
 
@@ -15,7 +15,7 @@ export default async function handle(req, res) {
     case 'POST':
       const username = req.body.username;
       const token = req.body.token;
-      let answeredQuesCount //= await api_functions.getUserStatus(username, token);
+      let answeredQuesCount 
       
       api_functions.validateUserWithToken(token, username).then(async (val_status) => {
         if (val_status) {
@@ -24,26 +24,26 @@ export default async function handle(req, res) {
               answeredQuesCount = 'error'
             } else {
               answeredQuesCount = parseInt(result[0].status)
-              // res.shouldKeepAlive = true
-              // console.log(res.shouldKeepAlive)
+              
+              
               await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions, status: true });
-              // await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions.filter((res) => res.id <= answeredQuesCount + 1), status: true });
+              
             }
           })
-          // db.query("SELECT  * FROM Question", (err, result) => {
-          //   if (err) {
-          //     res.status(500).json({db: db.state, answeredQuesCount: answeredQuesCount, error: err, status: false,  });
-          //   }
-          //   else {
-          //     res.status(200).json({db: db.state, answeredQuesCount: answeredQuesCount, total_questions_count: result.length, questions: result.filter((res) => res.id <= answeredQuesCount + 1), status: true });
-          //   }
-          // });
+          
+          
+          
+          
+          
+          
+          
+          
 
         } else {
           res.status(401).json({ message: 'Validation failed. Please login again', status: false });
         }
       }).catch((err) => {
-        // res.status(401).json({ message: 'Validation error', error: err, status: false });
+        
       });
 
 
@@ -53,7 +53,7 @@ export default async function handle(req, res) {
     default:
       break;
   }
-  // db.end();
+  
 
 
 }

@@ -6,7 +6,7 @@ import data_questions from './data_questions.json';
 
 
 export default {
-    //validate the user
+    
 
     validateUserWithToken: async (token, username) => {
 
@@ -39,7 +39,7 @@ export default {
         const fs = require('fs');
         const doc = new PDFDocument;
         doc.pipe(fs.createWriteStream('output.pdf'));
-        //set arabic font
+        
         doc.font('public/fonts/Amiri Regular.ttf');
 
         let currentUser = '';
@@ -81,7 +81,7 @@ export default {
             doc.lineWidth(1);
             doc.lineTo(doc.x, doc.page.width)
             doc.stroke();
-            // doc.text( "Cursor is on" + doc.x + " " + doc.y);
+            
 
             doc.moveDown(1);
             doc.moveDown(1);

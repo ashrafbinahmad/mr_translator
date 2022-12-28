@@ -1,11 +1,11 @@
 import db from '../../../lib/db';
 
-// import {  } from 'crypto-js';
+
 import bcrypt from 'bcrypt';
 import api_functions from '../../../helpers/api_functions';
 
 export default async function handle(req, res) {
-    //db.state === 'disconnected' && db.connect();
+    
     switch (req.method) {
         case 'GET':
         case 'POST':
@@ -13,7 +13,7 @@ export default async function handle(req, res) {
             const token = req.body.token;
             const answer = req.body.answer;
             const questId = req.body.questId;
-            //get user password from db
+            
             api_functions.validateUserWithToken(token, username).then((status) => {
 
                 if (status) {
@@ -23,13 +23,13 @@ export default async function handle(req, res) {
                             res.status(500).json({ error: err, status: false });
                         }
                         else {
-                            //set header to json
+                            
                             res.setHeader('Content-Type', 'application/json');
                             res.status(200).json({ message: 'Answer submitted successfully.', status: true, result });
                         }
                     });
-                    // db.end()
-                    // set status to questId + 1
+                    
+                    
                     db.query(`UPDATE User SET status = ${questId} WHERE username = '${username}';`, (err, result) => {
                         if (err) {
                             res.status(500).json({ error: err, status: false });
@@ -45,10 +45,10 @@ export default async function handle(req, res) {
             }).catch((err) => {
                 res.status(401).json({ error: err, status: false });
             });
-            // res.json(req.body);
+            
             break;
         default:
             break;
     }
-    //db.end();
+    
 }
