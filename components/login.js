@@ -18,6 +18,7 @@ export default function login() {
     setLoading(true)
     if (Username === '' || Password === '') {
       setError('Username or Password is empty')
+      setLoading(false)
     } else {
       setError('')
       axios.post('/api/login', { username: Username, password: Password }).then((res) => {
@@ -45,13 +46,13 @@ export default function login() {
         <div className={s.left}>
           {/* <img src="images/loginbg.jpg" alt="" /> */}
         </div>
-        <Box p={8}>
+        <Box p={8} className={s.form}>
           <Heading className={s.heading} size='lg'>LOGIN</Heading>
           <FormControl isRequired isInvalid>
             <FormLabel >Username</FormLabel>
-            <Input placeholder=" " value={Username} onChange={(e) => setUsername(e.target.value)} />
+            <Input placeholder=" " bg={'white'} value={Username} onChange={(e) => setUsername(e.target.value)} />
             <FormLabel >Password</FormLabel>
-            <Input placeholder=" " type='password' value={Password} onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => { if (e.key == 'Enter')  handleSubmit(e) }} />
+            <Input placeholder=" " bg={'white'} type='password' value={Password} onChange={(e) => setPassword(e.target.value)} onKeyPress={(e) => { if (e.key == 'Enter')  handleSubmit(e) }} />
             <Button className={s.btnLogin} colorScheme='blue' onClick={(e) => handleSubmit(e)} >{loading ? 'LOGING IN...' : 'LOG IN'}</Button>
             <FormErrorMessage>{error}</FormErrorMessage>
           </FormControl>
