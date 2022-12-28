@@ -2,7 +2,7 @@ import { Button, Table } from '@chakra-ui/react'
 import React from 'react'
 import { DownloadIcon } from '@chakra-ui/icons'
 import axios from 'axios'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 import s from '../styles/admin.module.css'
 
 export default function admin() {
