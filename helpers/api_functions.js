@@ -6,7 +6,7 @@ import data_questions from './data_questions.json';
 
 
 export default {
-    
+
 
     validateUserWithToken: async (token, username) => {
 
@@ -31,7 +31,7 @@ export default {
         });
 
     },
-    generatePdf: (result) => {
+    generatePdf: (result, show_questions) => {
 
         const questions = data_questions;
 
@@ -39,7 +39,7 @@ export default {
         const fs = require('fs');
         const doc = new PDFDocument;
         doc.pipe(fs.createWriteStream('output.pdf'));
-        
+
         doc.font('public/fonts/Amiri Regular.ttf');
 
         let currentUser = '';
@@ -60,16 +60,18 @@ export default {
             const currentQuest = questions.find(q => q.id == answer.questId).question;
             const isQuestArabic = ui_functions.isArabic(currentQuest);
             doc.text(`QUESTION ${answer.questId}`)
-            doc.text(`${answer.questId} ${currentQuest}`,
-                {
-                    features: [isQuestArabic ? 'rtla' : 'ltra'],
-                    align: isQuestArabic ? 'right' : 'left'
-                }
+            if (show_questions) {
+                doc.text(`${answer.questId} ${currentQuest}`,
+                    {
+                        features: [isQuestArabic ? 'rtla' : 'ltra'],
+                        align: isQuestArabic ? 'right' : 'left'
+                    }
                 )
+            }
             doc.fontSize(14);
             const isArabic = ui_functions.isArabic(answer.answer);
 
-            
+
 
             doc.text(answer.answer,
                 {
@@ -81,7 +83,7 @@ export default {
             doc.lineWidth(1);
             doc.lineTo(doc.x, doc.page.width)
             doc.stroke();
-            
+
 
             doc.moveDown(1);
             doc.moveDown(1);

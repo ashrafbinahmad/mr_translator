@@ -17,7 +17,7 @@ export default async function handle(req, res) {
 
             const token =  bcrypt.hashSync(result[0].password, 10);
             
-            res.status(200).json({ message: 'Login success', status: true, token, username:result[0].username });
+            res.status(200).json({ message: 'Login success', status: true, token, username:result[0].username,  fullname:result[0].fullname,  answered_count:result[0].status,  });
           } else {
             res.status(401).json({ message: 'Invalid username or password', status: false });
           }

@@ -26,7 +26,7 @@ export default async function handle(req, res) {
               answeredQuesCount = parseInt(result[0].status)
               
               
-              await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: data_questions, status: true });
+              await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: [data_questions[answeredQuesCount]], status: true });
               
             }
           })

@@ -85,7 +85,7 @@ export default function thanks() {
   }
 
   return (
-    <Layout name={user?.username} answeredCount={user?.status} >
+    <Layout name={user?.fullname} answeredCount={user?.status} >
       <div className={s.container} style={{ height: '98vh', position: 'relative' }}>
         <div className={s.can_container} style={{ overflow: 'auto' }}  >
           <canvas id='certificate'   ></canvas>
@@ -98,9 +98,11 @@ export default function thanks() {
           {completed &&
             <div>
               <img src="/images/done.gif" width='100px' alt="" style={{marginBottom:'2rem'}} />
-              <Button onClick={download} colorScheme='blue'>
+              {/* <Button onClick={download} colorScheme='blue'>
                 <DownloadIcon /> Download Certificate
-              </Button>
+              </Button> */}
+              <h2>THANK YOU</h2>
+              <h2>YOUR ANSWERS ARE SAVED</h2>
             </div>
           }
         </div>

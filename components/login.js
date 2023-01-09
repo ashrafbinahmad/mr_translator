@@ -22,8 +22,10 @@ export default function login() {
     } else {
       setError('')
       axios.post('/api/login', { username: Username, password: Password }).then((res) => {
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('token', res.data?.token)
+        localStorage.setItem('username', res.data?.username)
+        localStorage.setItem('fullname', res.data?.fullname)
+        localStorage.setItem('_status', res.data?.answered_count)
         if (res.data.username === 'admin') {
           router.push('/admin')
         } else {

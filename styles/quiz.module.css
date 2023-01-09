@@ -52,6 +52,7 @@
 .answer{
     max-width: 800px;
     margin: 1rem auto;
+    white-space: pre-line  ;
 
 }
 

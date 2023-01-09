@@ -7,7 +7,9 @@ const nextConfig = {
     MYSQL_USER: process.env.MYSQL_USER,
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
     MYSQL_DB: process.env.MYSQL_DB,
+    MYSQL_PORT: process.env.MYSQL_PORT,
     ENCRYPT_KEY: process.env.ENCRYPT_KEY,
+
   },
 }
 

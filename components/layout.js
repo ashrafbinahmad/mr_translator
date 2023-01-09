@@ -3,7 +3,7 @@ import Head from 'next/head'
 import React from 'react'
 import s from '../styles/layout.module.css'
 
-export default function layout({ children, name = 'Un Known', answeredCount = 0, totalQuestions = 0 }) {
+export default function layout({ children, name = '', answeredCount = 0, totalQuestions = 0 }) {
     return (
         <div className={s.page}>
             <Head>
@@ -14,7 +14,7 @@ export default function layout({ children, name = 'Un Known', answeredCount = 0,
             </Head>
             <nav className={s.nav}>
                 <div className="flex-grow"></div>
-                <a href="/"><h2>Mr. translator</h2></a> 
+                <a href="/"><h2>Mr. Translator</h2></a> 
                 <div className="flex-grow"></div>
                 <h3 style={{ marginRight: '1rem' }}>{answeredCount}</h3>
                 <Tooltip hasArrow label={name} borderRadius='2px' >
@@ -22,7 +22,6 @@ export default function layout({ children, name = 'Un Known', answeredCount = 0,
                 </Tooltip>
             </nav>
             <div className={s.children}>
-
                 {children}
             </div>
         </div>
