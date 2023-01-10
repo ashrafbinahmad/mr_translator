@@ -50,13 +50,17 @@ export default function start() {
     <Layout name={fullname}>
       <main className={s.main}>
         <div>
-        {!alreadyAttended ? 
-        
-          <h1 style={{fontSize:'2rem'}}>WELCOME <b>{fullname.toUpperCase()}</b> </h1>
-          : 
-          <h1 style={{fontSize:'2rem'}}>WELCOME BACK <b>{fullname.toUpperCase()}</b></h1>
-        }
+          {!alreadyAttended ?
 
+            <h1 style={{ fontSize: '1.6rem' }}>WELCOME <br /><b>{fullname.toUpperCase()}</b> </h1>
+            :
+            <h1 style={{ fontSize: '1.6rem' }}>WELCOME BACK <br /><b>{fullname.toUpperCase()}</b></h1>
+          }
+          <br />
+          <br />
+
+          <div className="space"></div>
+          <div className="space"></div>
           <div className="space"></div>
           {/* <h1>Let us get started.</h1> */}
           {/* <p>Once the button clicked you can not attend again.</p> */}

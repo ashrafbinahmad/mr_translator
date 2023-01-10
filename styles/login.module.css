@@ -22,10 +22,11 @@
 }
 
 .left {
-    background-image: url("/images/loginbg.jpg");
+    background-image: url("/images/resized_loginbg.jpg");
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
+    background-color: black;
 }
 
 .heading {

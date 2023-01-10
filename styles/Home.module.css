@@ -3,10 +3,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background: linear-gradient(135deg, #b1cfff 10%, #c8dbfa 100%); */
+  background: linear-gradient(135deg, rgb(3, 0, 56) 10%, rgb(8, 5, 58) 100%);
   min-height: 100vh;
-  background: rgb(2, 0, 36);
-  background: url("/images/loginbgimg.jpg");
+  /* background: rgb(3, 0, 56); */
+  /* background: url("/images/loginbgimg.jpg"); */
 }
 
 /* Mobile */
