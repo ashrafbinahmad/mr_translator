@@ -58,16 +58,16 @@ export default function quiz() {
     })
   }
 
-  const saveAnswer = async(reload) => {
+  const saveAnswer = async (reload) => {
     if (answer != null && answer != undefined && duration <= 0 && data_questions.length >= question?.id && !test_mode) {
       axios.post('/api/user/answer', {
         username: localStorage.getItem('username'),
         token: localStorage.getItem('token'),
         questId: question.id,
         answer: answer
-      }).then((res) => {
+      }).then(async (res) => {
         // data_questions.length > question.id && loadCurrentQuestion()
-         alert('Time is over, and answer is submitted. Tap OK to continue.')
+        alert('Time is over, and answer is submitted. Tap OK to continue.')
         reload && router.reload()
         setAnswer('')
       }).catch((err) => {
