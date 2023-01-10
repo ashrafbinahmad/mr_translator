@@ -18,7 +18,7 @@ export default function quiz() {
   const ending_datetime = new Date(data.end_time);
 
   // '2021-07-30T23:59:59.999Z' in am pm format
-  
+
 
   const router = useRouter()
 
@@ -27,18 +27,18 @@ export default function quiz() {
   const loadCurrentQuestion = () => {
     //load questions from server
     // user/me
-    axios.post('/api/user/me', {
+    axios.post('/api/user/question', {
       username: localStorage.getItem('username'),
       token: localStorage.getItem('token')
     }).then((res) => {
 
-      if (res.data.details.status == null) {
+      if (res.data.answeredQuesCount == null) {
         router.push('/start')
       }
-      const current_question = data_questions[parseInt(res.data.details.status)]
+      const current_question = res.data.questions[0]
 
-      
-      
+      console.log(current_question)
+
       setQuestion(current_question);
       localStorage.setItem(`duration`, ui_functions.minToMs(current_question?.duration))
       if (localStorage.getItem(`q-${current_question?.id}`) == null || localStorage.getItem(`q-${current_question?.id}`) == 'undefined') {
@@ -47,26 +47,26 @@ export default function quiz() {
       } else {
         setDuration(ui_functions.minToMs(localStorage.getItem(`q-${current_question?.id}`)));
       }
-      setUser(res.data.details);
-      if (parseInt(res.data.details.status) == data_questions.length) {
+      setUser(res.data.user);
+      if (parseInt(res.data.answeredQuesCount) == data_questions.length) {
         router.push('/thanks')
       }
 
     }).catch((err) => {
-      
-      router.reload()
+
+      // router.reload()
     })
   }
 
   const saveAnswer = (reload) => {
-    if ( answer != "" && answer != null && answer != undefined && duration <= 0 && data_questions.length >= question?.id && !test_mode) {
+    if (answer != null && answer != undefined && duration <= 0 && data_questions.length >= question?.id && !test_mode) {
       axios.post('/api/user/answer', {
         username: localStorage.getItem('username'),
         token: localStorage.getItem('token'),
         questId: question.id,
         answer: answer
       }).then((res) => {
-        
+
         // data_questions.length > question.id && loadCurrentQuestion()
         alert('Time over, Answer submitted. Tap OK to continue.')
         reload && router.reload()
@@ -80,7 +80,7 @@ export default function quiz() {
 
   //test
   React.useEffect(() => {
-    
+
     // 
     // 
 
@@ -123,6 +123,15 @@ export default function quiz() {
     return () => clearInterval(interval);
   }, [question]);
 
+  const handleAnswerOnChange = (e) => {
+
+    // setAnswer(e.target.value)
+    setAnswer(prev =>{
+      const answer = e.target.value.slice(0,prev.length+1)
+      return answer
+    })
+  }
+
   return (
     <Layout name={user.username} answeredCount={user?.status}>
       <div className={s.page}>
@@ -153,13 +162,20 @@ export default function quiz() {
 
               <Grid className={s.quest_ans} gridTemplateRows={`minMax(min-content, 50%)  auto`} >
                 <Skeleton className={s.question} width='100%' isLoaded={question?.id != undefined} >
-                  <p style={{textAlign: ui_functions.isArabic(question?.question) ? 'right' : 'left'}} > {question?.question}</p>
+                  <p style={{ textAlign: ui_functions.isArabic(question?.question) ? 'right' : 'left' }}
+                    dir={ui_functions.isArabic(question?.question) ? 'rtl' : 'ltr'}
+                    lang={ui_functions.isArabic(question?.question) ? 'arb' : 'en'}
+
+                  > {question?.question}</p>
                 </Skeleton>
+                {
+                  data.test_mode && <p>{answer}</p>
+                }
                 <Skeleton className={s.answer} width='100%' isLoaded={question?.id != undefined} >
                   {/* <p> {question?.question}</p> */}
                   <Textarea colorScheme='blue' tabIndex='0' className={s.answer} borderColor='blue.500'
-                  dir={ui_functions.isArabic(question?.question) ? 'ltr' : 'rtl'}
-                  //  style={{textAlign: ui_functions.isArabic(question?.question) ? 'left' : 'right'}}
+                    dir={ui_functions.isArabic(question?.question) ? 'ltr' : 'rtl'}
+                    //  style={{textAlign: ui_functions.isArabic(question?.question) ? 'left' : 'right'}}
                     id='textareaAnswer'
                     width='100%'
                     height='100%'
@@ -167,8 +183,10 @@ export default function quiz() {
                       data.pastable || e.preventDefault();
 
                     }}
+                    value={answer}
                     onChange={(e) => {
-                      setAnswer(e.target.value)
+                      handleAnswerOnChange(e)
+
                     }} />
                 </Skeleton>
               </Grid>
@@ -179,7 +197,7 @@ export default function quiz() {
             </div>
 
             <div>
-              DONE!
+
             </div>
           </div>
         </div>

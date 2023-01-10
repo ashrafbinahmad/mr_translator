@@ -23,7 +23,7 @@ export default function start() {
         setAlreadyAttended(true)
       }
     }).catch((err) => {
-      
+
       console.log(err, 'error while getting status')
     })
   }, [])
@@ -49,22 +49,37 @@ export default function start() {
   return (
     <Layout name={fullname}>
       <main className={s.main}>
-          <div>
-            <h1>Let us get started.</h1>
-            {/* <p>Once the button clicked you can not attend again.</p> */}
-            <div className="space"></div>
-            <Button colorScheme='green' onClick={handleStart}>
-        {!alreadyAttended ?
-              'START THE QUIZ' :
-              'CONTINUE THE QUIZ'
-        }
-              </Button>
-          </div>
-          
-          <div>
-          </div>
-
+        <div>
+        {!alreadyAttended ? 
         
+          <h1 style={{fontSize:'2rem'}}>WELCOME <b>{fullname.toUpperCase()}</b> </h1>
+          : 
+          <h1 style={{fontSize:'2rem'}}>WELCOME BACK <b>{fullname.toUpperCase()}</b></h1>
+        }
+
+          <div className="space"></div>
+          {/* <h1>Let us get started.</h1> */}
+          {/* <p>Once the button clicked you can not attend again.</p> */}
+          <div className="space"></div>
+          {!alreadyAttended ?
+            <Button colorScheme='green' onClick={handleStart}>
+
+              START THE QUIZ
+
+            </Button> :
+            <Button colorScheme='green' onClick={() => router.push('/quiz')}>
+
+              CONTINUE THE QUIZ
+
+            </Button>
+
+          }
+        </div>
+
+        <div>
+        </div>
+
+
       </main>
     </Layout>
   )

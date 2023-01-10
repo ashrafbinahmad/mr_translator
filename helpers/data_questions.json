@@ -36,21 +36,21 @@
     },
     {
         "id": 6,
-        "title": "Translate to arabic",
+        "title": "Translate to english",
         "question": "لقد آمنت قطر بحلم تقديم أفضل نسخة من بطولة كأس العالم ونافست غيرها بإصرار عجيب على الظفر به، وها هي تراه رأي العين، والجميل في القصة أن \"الرجل الأبيض المحتكر قد انبهر، وانتقل إلى ردود الفعل بعد أن كان هو الفاعل المعرقل، وتلك لعمري مرحلة جديدة دشنتها دولة قطر، بدخولها التاريخ من أوسع أبوابه عبر النجاح في تنظيم أكبر حدث رياضي على كوكب الأرض.",
         "duration": 0.5,
         "duration_": 0.8
     },
     {
         "id": 7,
-        "title": "Translate to english",
+        "title": "Translate to arabic",
         "question": "Man proposes and God disposes",
         "duration":0.5,
         "duration_": 1
     },
     {
         "id": 8,
-        "title": "A word to the wise is enough",
+        "title": "Translate to arabic",
         "question": "A word to the wise is enough",
         "duration":0.5,
         "duration_": 1
