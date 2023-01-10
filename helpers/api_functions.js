@@ -10,7 +10,7 @@ export default {
 
     validateUserWithToken: async (token, username) => {
 
-        const decrypted = bcrypt.compareSync(username, token);
+        const decrypted = bcrypt.compare(username, token);
         if (decrypted) {
             return true;
         } else {
