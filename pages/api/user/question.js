@@ -26,12 +26,12 @@ export default async function handle(req, res) {
               answeredQuesCount = parseInt(result[0].status)
               
               
-              await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: [data_questions[answeredQuesCount]], user: result[0] ,status: true });
+               return await res.status(200).json({ answeredQuesCount, total_questions_count: data_questions.length, questions: [data_questions[answeredQuesCount]], user: result[0] ,status: true });
               
             }
           })
         } else {
-          res.status(401).json({ message: 'Validation failed. Please login again', status: false });
+          return res.status(401).json({ message: 'Validation failed. Please login again', status: false });
         }
       }).catch((err) => {
         

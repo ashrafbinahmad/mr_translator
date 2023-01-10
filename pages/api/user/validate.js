@@ -12,18 +12,18 @@ export default async function handle(req, res) {
             
             db.query(`SELECT * FROM User WHERE username = '${username}'`, (err, result) => {
                 if (err) {
-                    res.status(500).json({ error: err, status: false });
+                    return res.status(500).json({ error: err, status: false });
                 } else {
                     if (result.length > 0) {
                         const password = result[0].password;
                         const decrypted = bcrypt.compareSync(password, token);
                         if (decrypted) {
-                            res.status(200).json({ message: 'Validation successfull', status: true });
+                            return res.status(200).json({ message: 'Validation successfull', status: true });
                         } else {
-                            res.status(401).json({ message: 'Validation failed', status: false });
+                            return res.status(401).json({ message: 'Validation failed', status: false });
                         }
                     } else {
-                        res.status(401).json({ message: 'Validation failed', status: false });
+                        return res.status(401).json({ message: 'Validation failed', status: false });
                     }
                 }
             });

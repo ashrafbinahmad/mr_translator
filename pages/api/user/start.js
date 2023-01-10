@@ -17,16 +17,16 @@ export default async function handle(req, res) {
           
           db.query(`UPDATE User SET status = 0 WHERE username = '${username}'`, (err, result) => {
             if (err) {
-              res.status(500).json({ error: err, status: false });
+              return res.status(500).json({ error: err, status: false });
             } else {
-              res.status(200).json({ message: 'Quiz started successfully.', status: true, result });
+              return res.status(200).json({ message: 'Quiz started successfully.', status: true, result });
             }
           });
         } else {
-          res.status(401).json({ message: 'Validation failed. Please login again', status: false });
+          return res.status(401).json({ message: 'Validation failed. Please login again', status: false });
         }
       }).catch((err) => {
-        res.status(401).json({ error: err, status: false });
+        return res.status(401).json({ error: err, status: false });
       });
       
       break;

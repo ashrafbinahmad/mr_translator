@@ -53,7 +53,7 @@ export default function quiz() {
       }
 
     }).catch((err) => {
-
+      console.log(err)
       router.reload()
     })
   }
@@ -112,7 +112,20 @@ export default function quiz() {
         let showedAlert = false;
         if (current_time >= ending_datetime) {
           !showedAlert && alert("Time's up. Thanks for participating.")
-          saveAnswer(false)
+          axios.post('/api/user/answer', {
+            username: localStorage.getItem('username'),
+            token: localStorage.getItem('token'),
+            questId: question.id,
+            answer: answer
+          }).then((res) => {
+
+            // data_questions.length > question.id && loadCurrentQuestion()
+            alert('Time over, Answer submitted. Tap OK to continue.')
+            reload && router.reload()
+            setAnswer('')
+          }).catch((err) => {
+            console.error(err);
+          })
           clearInterval(interval)
           showedAlert = true;
           router.push('/thanks')
@@ -126,8 +139,8 @@ export default function quiz() {
   const handleAnswerOnChange = (e) => {
 
     // setAnswer(e.target.value)
-    setAnswer(prev =>{
-      const answer = e.target.value.slice(0,prev.length+1)
+    setAnswer(prev => {
+      const answer = e.target.value.slice(0, prev.length + 1)
       return answer
     })
   }

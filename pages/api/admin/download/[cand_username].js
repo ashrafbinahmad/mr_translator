@@ -12,16 +12,16 @@ export default async function handle(req, res) {
                 if (username == 'admin') {
                     db.query(`SELECT * FROM Response WHERE username = '${cand_username}'`, (err, result) => {
                         if (err) {
-                            res.status(500).json({ error: err, success: false });
+                            return res.status(500).json({ error: err, success: false });
                         } else {
                             api_functions.generatePdf(result).pipe(res);
                         }
                     });
                 } else {
-                    res.status(401).json({ error: 'Not an admin', success: false });
+                    return res.status(401).json({ error: 'Not an admin', success: false });
                 }
             }).catch((err) => {
-                res.status(401).json({ error: err, success: false });
+                return res.status(401).json({ error: err, success: false });
             });
             break;
         default:

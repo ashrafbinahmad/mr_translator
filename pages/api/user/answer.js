@@ -20,30 +20,31 @@ export default async function handle(req, res) {
 
                     db.query(`INSERT INTO Response (username,questId,res_code,answer) VALUES ('${username}','${questId}','${username}_q-${questId}','${answer}');`, (err, result) => {
                         if (err) {
-                            res.status(500).json({ error: err, status: false });
+                            return res.status(500).json({ error: err, status: false });
                         }
                         else {
                             
                             res.setHeader('Content-Type', 'application/json');
-                            res.status(200).json({ message: 'Answer submitted successfully.', status: true, result });
+                            db.query(`UPDATE User SET status = ${questId} WHERE username = '${username}';`)
+                            return res.status(200).json({ message: 'Answer submitted successfully.', status: true, result });
                         }
                     });
                     
                     
-                    db.query(`UPDATE User SET status = ${questId} WHERE username = '${username}';`, (err, result) => {
-                        if (err) {
-                            res.status(500).json({ error: err, status: false });
-                        }
-                        else {
-                            res.setHeader('Content-Type', 'application/json');
-                            res.status(200).json({ message: 'Status updated successfully.', status: true, result });
-                        }
-                    });
+                    // db.query(`UPDATE User SET status = ${questId} WHERE username = '${username}';`, (err, result) => {
+                    //     if (err) {
+                    //         return res.status(500).json({ error: err, status: false });
+                    //     }
+                    //     else {
+                    //         res.setHeader('Content-Type', 'application/json');
+                    //         return res.status(200).json({ message: 'Status updated successfully.', status: true, result });
+                    //     }
+                    // });
                 } else {
-                    res.status(401).json({ message: 'Validation failed. Please login again', status: false });
+                    return res.status(401).json({ message: 'Validation failed. Please login again', status: false });
                 }
             }).catch((err) => {
-                res.status(401).json({ error: err, status: false });
+                return res.status(401).json({ error: err, status: false });
             });
             
             break;

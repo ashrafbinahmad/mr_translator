@@ -17,14 +17,14 @@ export default async function handle(req, res) {
           
           db.query(`SELECT * FROM User WHERE username = '${username}'`, (err, result) => {
             if (err) {
-              res.status(500).json({ error: err, success: false });
+              return res.status(500).json({ error: err, success: false });
             } else {
-              res.status(200).json({ message: 'Got user data.', success: true, details: result[0] });
+              return res.status(200).json({ message: 'Got user data.', success: true, details: result[0] });
             }
           });
         }
       }).catch((err) => {
-        res.status(401).json({ error: err, success: false });
+        return res.status(401).json({ error: err, success: false });
       });
       
       break;

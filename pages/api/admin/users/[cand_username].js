@@ -13,18 +13,18 @@ export default async function handle(req, res) {
                 if (username == 'admin') {
                     db.query(`SELECT * FROM User WHERE username = '${cand_username}'`, (err, result) => {
                         if (err) {
-                            res.status(500).json({ error: err, success: false });
+                            return res.status(500).json({ error: err, success: false });
                         } else if(result.length == 0) {
-                            res.status(200).json({ message: 'Didn\'t get ' + cand_username, success: false });
+                            return res.status(200).json({ message: 'Didn\'t get ' + cand_username, success: false });
                         } else {
-                            res.status(200).json({ message: 'Got ' + cand_username, details: result, success: true });
+                            return res.status(200).json({ message: 'Got ' + cand_username, details: result, success: true });
                         }
                     });
                 } else {
-                    res.status(401).json({ error: 'Not an admin', success: false });
+                    return res.status(401).json({ error: 'Not an admin', success: false });
                 }
             }).catch((err) => {
-                res.status(401).json({ error: err, success: false });
+                return res.status(401).json({ error: err, success: false });
             });
             break;
         default:
