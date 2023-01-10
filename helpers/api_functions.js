@@ -44,51 +44,52 @@ export default {
 
         let currentUser = '';
         result.map((answer, index) => {
-            if (currentUser != answer.username) {
-                index != 0 && doc.addPage();
-                doc.fontSize(20).text(answer.username,
+            if (answer.answer != '') {
+                if (currentUser != answer.username) {
+                    index != 0 && doc.addPage();
+                    doc.fontSize(20).text(answer.username,
+                        {
+                            align: 'center',
+                            underline: true,
+                            lineGap: 10,
+                            bold: true
+                        }
+                    );
+                }
+                currentUser = answer.username;
+                doc.fontSize(10);
+                const currentQuest = questions.find(q => q.id == answer.questId).question;
+                const isQuestArabic = ui_functions.isArabic(currentQuest);
+                doc.text(`QUESTION ${answer.questId}`)
+                if (show_questions) {
+                    doc.text(`${answer.questId} ${currentQuest}`,
+                        {
+                            features: [isQuestArabic ? 'rtla' : 'ltra'],
+                            align: isQuestArabic ? 'right' : 'left'
+                        }
+                    )
+                }
+                doc.fontSize(14);
+                const isArabic = ui_functions.isArabic(answer.answer);
+
+
+
+                doc.text(answer.answer,
                     {
-                        align: 'center',
-                        underline: true,
-                        lineGap: 10,
-                        bold: true
+                        features: [isArabic ? 'rtla' : 'ltra'],
+                        align: isArabic ? 'right' : 'left'
                     }
                 );
+
+                doc.lineWidth(1);
+                doc.lineTo(doc.x, doc.page.width)
+                doc.stroke();
+
+
+                doc.moveDown(1);
+                doc.moveDown(1);
+                doc.moveDown(1);
             }
-            currentUser = answer.username;
-            doc.fontSize(10);
-            const currentQuest = questions.find(q => q.id == answer.questId).question;
-            const isQuestArabic = ui_functions.isArabic(currentQuest);
-            doc.text(`QUESTION ${answer.questId}`)
-            if (show_questions) {
-                doc.text(`${answer.questId} ${currentQuest}`,
-                    {
-                        features: [isQuestArabic ? 'rtla' : 'ltra'],
-                        align: isQuestArabic ? 'right' : 'left'
-                    }
-                )
-            }
-            doc.fontSize(14);
-            const isArabic = ui_functions.isArabic(answer.answer);
-
-
-
-            doc.text(answer.answer,
-                {
-                    features: [isArabic ? 'rtla' : 'ltra'],
-                    align: isArabic ? 'right' : 'left'
-                }
-            );
-
-            doc.lineWidth(1);
-            doc.lineTo(doc.x, doc.page.width)
-            doc.stroke();
-
-
-            doc.moveDown(1);
-            doc.moveDown(1);
-            doc.moveDown(1);
-
         });
         doc.end();
         return doc;
