@@ -54,7 +54,7 @@ export default function quiz() {
 
     }).catch((err) => {
 
-      // router.reload()
+      router.reload()
     })
   }
 
